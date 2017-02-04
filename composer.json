@@ -11,7 +11,8 @@
     "require": {
         "php":  ">=7.0.0",
         "slaxweb/logger": "~0.3",
-        "slaxweb/config": "~0.2"
+        "slaxweb/config": "~0.2",
+        "slaxweb/router": "~0.4"
     },
     "require-dev": {
         "codeception/codeception": "~2.2",
