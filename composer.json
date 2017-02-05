@@ -16,8 +16,7 @@
     },
     "require-dev": {
         "codeception/codeception": "~2.2",
-        "codeception/specify": "*",
-        "behat/gherkin": "~4.4"
+        "codeception/specify": "*"
     },
     "autoload": {
         "psr-4": {
