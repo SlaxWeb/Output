@@ -205,7 +205,7 @@ class Manager
         // load the error template
         require $this->errorTpl["template"];
         // and add it to response content
-        $this->response->addContent(ob_get_clean() ?: "");
+        $this->response->addContent(ob_get_clean());
 
         // if we have previously buffered output, restart output buffering, and
         // re-output what was already in the buffer.
