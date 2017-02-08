@@ -79,6 +79,16 @@ class Manager
     protected $env = "";
 
     /**
+     * Error template data
+     *
+     * Containing the style template which is loaded only once, and the error template.
+     *
+     * @var array
+     */
+    protected $errorTpl = [];
+     */
+
+    /**
      * Class constructor
      *
      * Copy dependencies to protected class properties, and parse the configuration
@@ -87,9 +97,14 @@ class Manager
      * @param \Psr\Log\LoggerInterface $logger Logger instance
      * @param \SlaxWeb\Router\Response $response Response object
      * @param array $settings Output manager settings array
+     * @param array $errorTpl Error templates for error output, default []
      */
-    public function __construct(Logger $logger, Response $response, array $settings)
-    {
+    public function __construct(
+        Logger $logger,
+        Response $response,
+        array $settings,
+        array $errorTpl = []
+    ) {
         $this->logger = $logger;
         $this->response = $response;
 
@@ -98,6 +113,8 @@ class Manager
         $this->mode = $settings["mode"] ?? self::MODE_JSON;
         $this->allowModeChange = $settings["allowModeChange"] ?? true;
         $this->env = $settings["environment"] ?? "development";
+
+        $this->errorTpl = $errorTpl;
 
         $this->logger->info("Output manager initialized");
     }
@@ -137,6 +154,8 @@ class Manager
      * @param int $line Line at which the error occured
      * @param array $context Error context pointing to the active symbol table
      * @return bool
+     *
+     * @todo log the error in appropriate level
      */
     public function errorHandler(
         int $code,
@@ -145,6 +164,37 @@ class Manager
         int $line,
         array $context = []
     ): bool {
+        // if we are not in dev environment, bail out
+        if ($this->env !== "development") {
+            return true;
+        }
+
+        // template not set, return false and let PHP handle this one
+        if (isset($this->errorTpl["template"]) === false) {
+            return false;
+        }
+
+        // get previously buffered output and re-add it at the end
+        $buffered = ob_get_clean();
+        ob_start();
+
+        // require the error style template with require_once to ensure it is included
+        // only once in the output
+        if (isset($this->errorTpl["style"])) {
+            require_once $this->errorTpl["style"];
+        }
+
+        // load the error template
+        require $this->errorTpl["template"];
+        // and add it to response content
+        $this->response->addContent(ob_get_clean() ?: "");
+
+        // if we have previously buffered output, restart output buffering, and
+        // re-output what was already in the buffer.
+        if ($buffered !== false) {
+            ob_start();
+            echo $buffered;
+        }
         return true;
     }
 
