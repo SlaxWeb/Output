@@ -192,8 +192,7 @@ class Manager
             return false;
         }
 
-        // get previously buffered output and re-add it at the end
-        $buffered = ob_get_clean();
+        // start output buffering
         ob_start();
 
         // require the error style template with require_once to ensure it is included
@@ -206,13 +205,6 @@ class Manager
         require $this->errorTpl["template"];
         // and add it to response content
         $this->response->addContent(ob_get_clean());
-
-        // if we have previously buffered output, restart output buffering, and
-        // re-output what was already in the buffer.
-        if ($buffered !== false) {
-            ob_start();
-            echo $buffered;
-        }
         return true;
     }
 
