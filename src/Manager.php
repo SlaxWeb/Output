@@ -116,6 +116,8 @@ class Manager
 
         $this->errorTpl = $errorTpl;
 
+        $this->registerHandlers();
+
         $this->logger->info("Output manager initialized");
     }
 
@@ -134,6 +136,22 @@ class Manager
      */
     public function shutdownHandler()
     {
+        if (($lastErr = error_get_last())["type"] === E_ERROR) {
+            $this->errorHandler(
+                $lastErr["type"],
+                $lastErr["message"],
+                $lastErr["file"],
+                $lastErr["line"]
+            );
+        }
+
+        if ($this->enabled === false) {
+            // Component not enabled, no need to render output.
+            $this->logger->debug("Output component not enabled. Aborting output generation");
+            return;
+        }
+
+        // @TODO: generate output for given mode
     }
 
     /**
