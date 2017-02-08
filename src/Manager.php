@@ -72,6 +72,13 @@ class Manager
     protected $allowModeChange = true;
 
     /**
+     * Application environment
+     *
+     * @var string
+     */
+    protected $env = "";
+
+    /**
      * Class constructor
      *
      * Copy dependencies to protected class properties, and parse the configuration
@@ -90,6 +97,7 @@ class Manager
         $this->allowOutput = $settings["allowOutput"] ?? true;
         $this->mode = $settings["mode"] ?? self::MODE_JSON;
         $this->allowModeChange = $settings["allowModeChange"] ?? true;
+        $this->env = $settings["environment"] ?? "development";
 
         $this->logger->info("Output manager initialized");
     }
