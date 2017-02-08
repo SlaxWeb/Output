@@ -101,4 +101,64 @@ class Manager
 
         $this->logger->info("Output manager initialized");
     }
+
+    /**
+     * Shutdown handler
+     *
+     * Shutdown handler handles output for a specified mode in the Output Manager.
+     * This method is called by PHP automatically at end of execution, and should
+     * never be called directly. If the Output component is not enabled, it will
+     * not attempt to generate output for the set mode.
+     *
+     * The method also catches fatal errors and forwards them to the error handler
+     * method.
+     *
+     * @return void
+     */
+    public function shutdownHandler()
+    {
+    }
+
+    /**
+     * Error handler
+     *
+     * The classic PHP error handler. It will load the "style" template set in the
+     * "errorTpl" protected property only once on the first run, to ensure any styling
+     * template is output only once. If the "template" item is not found in the
+     * "errorTpl" protected property array, then the method will return bool(false)
+     * and regular PHP error handling will proceed. If the environment is not set
+     * to "development", method will return bool(true), halting any error output.
+     * When set to "development", and the "template" item being set, the template
+     * will be loaded with the error parameters.
+     *
+     * @param int $code Error code
+     * @param string $error Error message
+     * @param string $file File in which the error occured
+     * @param int $line Line at which the error occured
+     * @param array $context Error context pointing to the active symbol table
+     * @return bool
+     */
+    public function errorHandler(
+        int $code,
+        string $error,
+        string $file,
+        int $line,
+        array $context = []
+    ): bool {
+        return true;
+    }
+
+    /**
+     * Register handlers
+     *
+     * Registers a shutdown handler function, and a error handler function for handling
+     * execution termination, and allows for the desired output.
+     *
+     * @return void
+     */
+    protected function registerHandlers()
+    {
+        register_shutdown_function([$this, "shutdownHandler"]);
+        set_error_handler([$this, "errorHandler"]);
+    }
 }
