@@ -134,7 +134,7 @@ class Manager
      */
     public function shutdownHandler()
     {
-        if (($lastErr = error_get_last())["type"] === E_ERROR) {
+        if (($lastErr = error_get_last()) !== null && $lastErr["type"] === E_ERROR) {
             $this->errorHandler(
                 $lastErr["type"],
                 $lastErr["message"],
@@ -189,7 +189,7 @@ class Manager
         }
 
         // template not set, return false and let PHP handle this one
-        if (isset($this->errorTpl["template"]) === false) {
+        if (empty($this->errorTpl["template"])) {
             return false;
         }
 
@@ -198,7 +198,7 @@ class Manager
 
         // require the error style template with require_once to ensure it is included
         // only once in the output
-        if (isset($this->errorTpl["style"])) {
+        if (empty($this->errorTpl["style"]) === false) {
             require_once $this->errorTpl["style"];
         }
 
