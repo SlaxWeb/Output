@@ -86,7 +86,6 @@ class Manager
      * @var array
      */
     protected $errorTpl = [];
-     */
 
     /**
      * Class constructor
