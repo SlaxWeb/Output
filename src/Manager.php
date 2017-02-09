@@ -146,13 +146,11 @@ class Manager
             ob_end_clean();
         }
 
-        if ($this->enabled === false) {
-            // Component not enabled, no need to render output.
-            $this->logger->debug("Output component not enabled. Aborting output generation");
-            return;
+        if ($this->enabled === true) {
+            // @TODO: generate output for given mode
         }
 
-        // @TODO: generate output for given mode
+        $this->response->send();
     }
 
     /**
