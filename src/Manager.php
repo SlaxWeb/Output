@@ -112,10 +112,9 @@ class Manager
         $this->mode = $settings["mode"] ?? self::MODE_JSON;
         $this->allowModeChange = $settings["allowModeChange"] ?? true;
         $this->env = $settings["environment"] ?? "development";
-
         $this->errorTpl = $errorTpl;
 
-        $this->registerHandlers();
+        $this->init();
 
         $this->logger->info("Output manager initialized");
     }
@@ -142,6 +141,9 @@ class Manager
                 $lastErr["file"],
                 $lastErr["line"]
             );
+
+            // discard PHP generated error output
+            ob_end_clean();
         }
 
         if ($this->enabled === false) {
@@ -208,16 +210,20 @@ class Manager
     }
 
     /**
-     * Register handlers
+     * Initialise manager
      *
      * Registers a shutdown handler function, and a error handler function for handling
-     * execution termination, and allows for the desired output.
+     * execution termination, and allows for the desired output. After the handlers
+     * are registered, output buffering is started.
      *
      * @return void
      */
-    protected function registerHandlers()
+    protected function init()
     {
         register_shutdown_function([$this, "shutdownHandler"]);
         set_error_handler([$this, "errorHandler"]);
+        ob_start();
+
+        $this->logger->info("Shutdown and error handlers have been registered");
     }
 }
