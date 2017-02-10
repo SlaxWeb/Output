@@ -15,4 +15,9 @@ class OutputManagerTest extends \Codeception\Test\Unit
     protected function _after()
     {
     }
+
+    public function testErrorHandling()
+    {
+
+    }
 }
