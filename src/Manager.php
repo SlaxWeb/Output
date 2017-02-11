@@ -301,4 +301,28 @@ class Manager
 
         $this->logger->info("Shutdown and error handlers have been registered");
     }
+
+    /**
+     * Get handler
+     *
+     * Tries to obtain an Output Handler, either directly from the '$handler' property,
+     * or through the getter.
+     *
+     * @return \SlaxWeb\Output\HandlerInterface
+     */
+    protected function getHandler(): HandlerInterface
+    {
+        if ($this->handler === null
+            && (
+                is_callable($this->handlerGetter) === false
+                || !($this->handler = $this->handlerGetter() instanceof \SlaxWeb\Output\HandlerInterface)
+            )
+        ) {
+            throw new Exception\MissingOutputHandlerException(
+                "Output Manager does not have a valid Output Handler nor an "
+                . "Output Handler getter set, or it provided an invalid Handler."
+            );
+        }
+        return $this->handler;
+    }
 }
