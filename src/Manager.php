@@ -209,6 +209,11 @@ class Manager
         // template not set, return false and let PHP handle this one
         if (empty($this->errorTpl["template"])) {
             return false;
+        };
+
+        // set status code 500 on errors
+        if ($code === ((E_ERROR | E_USER_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_PARSE) & $code)) {
+            $this->response->setStatusCode(500);
         }
 
         // set readable severity for templating

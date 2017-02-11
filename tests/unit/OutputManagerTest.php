@@ -22,7 +22,14 @@ class OutputManagerTest extends \Codeception\Test\Unit
      *
      * @var \Mockery\MockInterface
      */
-    protected $logger;
+    protected $logger = null;
+
+    /**
+     * Output manager object
+     *
+     * @var \SlaxWeb\Output\Manager
+     */
+    protected $manager = null;
 
     /**
      * Temp error template name
@@ -46,17 +53,21 @@ class OutputManagerTest extends \Codeception\Test\Unit
             ->with("style template\nWarningTest warningTestfile.php1")
             ->times(1);
 
-        $manager = new \SlaxWeb\Output\Manager(
-            $this->logger,
-            $this->response,
-            [],
-            [
-                "style"     =>  $this->styleTplName,
-                "template"  =>  $this->tplName
-            ]
-        );
+        $this->manager->errorHandler(E_WARNING, "Test warning", "Testfile.php", 1);
 
-        $manager->errorHandler(E_WARNING, "Test warning", "Testfile.php", 1);
+        ob_end_clean();
+    }
+
+    public function testErrorCodeSetOnError()
+    {
+        $this->response->shouldReceive("send")->andReturn($this->response);
+        $this->response->shouldReceive("addContent");
+        $this->response->shouldReceive("setStatusCode")->times(1)->with(500);
+
+        $this->manager->errorHandler(E_WARNING, "", "", 0);
+        $this->manager->errorHandler(E_ERROR, "", "", 0);
+
+        ob_end_clean();
     }
 
     protected function _before()
@@ -67,6 +78,16 @@ class OutputManagerTest extends \Codeception\Test\Unit
         $this->logger->shouldReceive("info");
 
         $this->createErrorTemplates();
+
+        $this->manager = new \SlaxWeb\Output\Manager(
+            $this->logger,
+            $this->response,
+            [],
+            [
+                "style"     =>  $this->styleTplName,
+                "template"  =>  $this->tplName
+            ]
+        );
     }
 
     protected function _after()
