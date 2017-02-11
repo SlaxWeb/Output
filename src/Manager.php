@@ -215,7 +215,7 @@ class Manager
         }
 
         if ($this->enabled === true) {
-            // @TODO: generate output for given mode
+            $this->response->addContent($this->getHandler()->render());
         }
 
         $this->response->send();
