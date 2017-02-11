@@ -23,13 +23,6 @@ use SlaxWeb\Config\Container as Config;
 class Manager
 {
     /**
-     * Ouput modes
-     */
-    const MODE_VIEW = 0;
-    const MODE_JSON = 1;
-    const MODE_FILE = 2;
-
-    /**
      * Logger instance
      *
      * @var \Psr\Log\LoggerInterface
@@ -56,20 +49,6 @@ class Manager
      * @var bool
      */
     protected $allowOutput = true;
-
-    /**
-     * Output mode
-     *
-     * @var int
-     */
-    protected $mode = 1;
-
-    /**
-     * Permit mode change
-     *
-     * @var bool
-     */
-    protected $allowModeChange = true;
 
     /**
      * Application environment
@@ -143,8 +122,6 @@ class Manager
 
         $this->enabled = $settings["enabled"] ?? false;
         $this->allowOutput = $settings["allowOutput"] ?? true;
-        $this->mode = $settings["mode"] ?? self::MODE_JSON;
-        $this->allowModeChange = $settings["allowModeChange"] ?? true;
         $this->env = $settings["environment"] ?? "development";
         $this->errorTpl = $errorTpl;
 
