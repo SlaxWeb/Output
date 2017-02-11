@@ -79,6 +79,26 @@ class Manager
     protected $env = "";
 
     /**
+     * List of available error levels
+     *
+     * @var array
+     */
+    protected $levels = [
+        E_ERROR             =>  "Error",
+        E_WARNING           =>  "Warning",
+        E_PARSE             =>  "Parsing Error",
+        E_NOTICE            =>  "Notice",
+        E_CORE_ERROR        =>  "Core Error",
+        E_CORE_WARNING      =>  "Core Warning",
+        E_COMPILE_ERROR     =>  "Compile Error",
+        E_COMPILE_WARNING   =>  "Compile Warning",
+        E_USER_ERROR        =>  "User Error",
+        E_USER_WARNING      =>  "User Warning",
+        E_USER_NOTICE       =>  "User Notice",
+        E_STRICT            =>  "Runtime Notice"
+    ];
+
+    /**
      * Error template data
      *
      * Containing the style template which is loaded only once, and the error template.
@@ -191,6 +211,9 @@ class Manager
             return false;
         }
 
+        // set readable severity for templating
+        $severity = $this->levels[$code];
+
         // start output buffering
         ob_start();
 
@@ -203,7 +226,8 @@ class Manager
         // load the error template
         require $this->errorTpl["template"];
         // and add it to response content
-        $this->response->addContent(ob_get_clean());
+        $this->response->addContent(ob_get_contents());
+        ob_end_clean();
         return true;
     }
 
