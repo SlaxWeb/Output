@@ -88,6 +88,8 @@ class OutputManagerTest extends \Codeception\Test\Unit
                 "template"  =>  $this->tplName
             ]
         );
+
+        restore_error_handler();
     }
 
     protected function _after()
