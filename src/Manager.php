@@ -220,6 +220,13 @@ class Manager
             $this->response->addContent($handler->render());
         }
 
+        if ($this->enabled === false || $this->allowOutput === true) {
+            echo ob_get_contents();
+        }
+        if (ob_get_status()) {
+            ob_end_clean();
+        }
+
         $this->response->setStatusCode($this->statusCode ?: 200);
         $this->response->send();
     }
