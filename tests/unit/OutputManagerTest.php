@@ -48,6 +48,7 @@ class OutputManagerTest extends \Codeception\Test\Unit
     public function testErrorHandling()
     {
         $this->response->shouldReceive("send")->andReturn($this->response);
+        $this->response->shouldReceive("setStatusCode")->with(200);
         $this->response
             ->shouldReceive("addContent")
             ->with("style template\nWarningTest warningTestfile.php1")
@@ -62,7 +63,7 @@ class OutputManagerTest extends \Codeception\Test\Unit
     {
         $this->response->shouldReceive("send")->andReturn($this->response);
         $this->response->shouldReceive("addContent");
-        $this->response->shouldReceive("setStatusCode")->times(1)->with(500);
+        $this->response->shouldReceive("setStatusCode")->with(500);
 
         $this->manager->errorHandler(E_WARNING, "", "", 0);
         $this->manager->errorHandler(E_ERROR, "", "", 0);

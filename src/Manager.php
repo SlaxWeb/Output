@@ -72,6 +72,13 @@ class Manager
     protected $handlerGetter = null;
 
     /**
+     * Response status code
+     *
+     * @var int
+     */
+    protected $statusCode = 0;
+
+    /**
      * List of available error levels
      *
      * @var array
@@ -207,9 +214,13 @@ class Manager
         }
 
         if ($this->enabled === true) {
-            $this->response->addContent($this->getHandler()->render());
+            $handler = $this->handler ?: $this->getHandler();
+            $this->statusCode = $this->statusCode ?: $handler->getStatusCode();
+            $this->response->headers->set("Content-Type", $handler->getContentType());
+            $this->response->addContent($handler->render());
         }
 
+        $this->response->setStatusCode($this->statusCode ?: 200);
         $this->response->send();
     }
 
@@ -253,7 +264,7 @@ class Manager
 
         // set status code 500 on errors
         if ($code === ((E_ERROR | E_USER_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_PARSE) & $code)) {
-            $this->response->setStatusCode(500);
+            $this->statusCode = 500;
         }
 
         // set readable severity for templating
