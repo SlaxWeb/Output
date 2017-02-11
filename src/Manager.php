@@ -154,6 +154,21 @@ class Manager
     }
 
     /**
+     * Magic call
+     *
+     * Forward all calls to the Output Handler. Once this call has been made the
+     * handler is set to the Manager and can no longer be changed.
+     *
+     * @param string $name Name of the method to call
+     * @param array $args Arguments for the method call
+     * @return mixed
+     */
+    public function __call(string $name, array $args)
+    {
+        return $this->getHandler()->{$name}(...$args);
+    }
+
+    /**
      * Set Handler
      *
      * Sets the output handler instance to the Manager. The handler must implement
