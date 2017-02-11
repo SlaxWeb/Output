@@ -14,6 +14,20 @@ namespace SlaxWeb\Output;
 abstract class AbstractHandler
 {
     /**
+     * Content-Type header value
+     *
+     * @var string
+     */
+    protected $contentType = "";
+
+    /**
+     * Status code
+     *
+     * @var int
+     */
+    protected $statusCode = 200;
+
+    /**
      * Render
      *
      * Render the handlers contents and return them to be included in the response.
@@ -21,4 +35,24 @@ abstract class AbstractHandler
      * @return strnig
      */
     abstract public function render(): string;
+
+    /**
+     * Get Content-Type
+     *
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * Get response code
+     *
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode();
+    }
 }

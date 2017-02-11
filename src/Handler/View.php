@@ -38,6 +38,13 @@ class View extends AbstractHandler
     ];
 
     /**
+     * Content-Type header value
+     *
+     * @var string
+     */
+    protected $contentType = "text/html";
+
+    /**
      * Add View
      *
      * Adds a View instance to the Views container and returns an instance of itself.
