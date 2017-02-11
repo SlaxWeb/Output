@@ -2,7 +2,7 @@
 namespace SlaxWeb\Output\Handler;
 
 use SlaxWeb\View\Base as AppView;
-use SlaxWeb\Output\HandlerInterface;
+use SlaxWeb\Output\AbstractHandler;
 use SlaxWeb\View\AbstractLoader as ViewLoader;
 
 /**
@@ -19,7 +19,7 @@ use SlaxWeb\View\AbstractLoader as ViewLoader;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-class View implements HandlerInterface
+class View extends AbstractHandler
 {
     /**
      * Views container

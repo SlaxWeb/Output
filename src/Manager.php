@@ -60,7 +60,7 @@ class Manager
     /**
      * Output Handler
      *
-     * @var \SlaxWeb\Output\HandlerInterface
+     * @var \SlaxWeb\Output\AbstractHandler
      */
     protected $handler = null;
 
@@ -149,13 +149,13 @@ class Manager
      * Set Handler
      *
      * Sets the output handler instance to the Manager. The handler must implement
-     * the \SlaxWeb\Output\HandlerInterface to be accepted by the method. Returns
+     * the \SlaxWeb\Output\AbstractHandler to be accepted by the method. Returns
      * an instance of itself.
      *
-     * @param \SlaxWeb\Output\HandlerInterface $handler Handler instance
+     * @param \SlaxWeb\Output\AbstractHandler $handler Handler instance
      * @return self
      */
-    public function setHandler(HandlerInterface $handler): self
+    public function setHandler(AbstractHandler $handler): self
     {
         $this->handler = $handler;
         return $this;
@@ -300,14 +300,14 @@ class Manager
      * Tries to obtain an Output Handler, either directly from the '$handler' property,
      * or through the getter.
      *
-     * @return \SlaxWeb\Output\HandlerInterface
+     * @return \SlaxWeb\Output\AbstractHandler
      */
-    protected function getHandler(): HandlerInterface
+    protected function getHandler(): AbstractHandler
     {
         if ($this->handler === null
             && (
                 is_callable($this->handlerGetter) === false
-                || !($this->handler = $this->handlerGetter() instanceof \SlaxWeb\Output\HandlerInterface)
+                || !($this->handler = $this->handlerGetter() instanceof \SlaxWeb\Output\AbstractHandler)
             )
         ) {
             throw new Exception\MissingOutputHandlerException(

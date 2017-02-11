@@ -2,7 +2,7 @@
 namespace SlaxWeb\Output;
 
 /**
- * Output Handler Interface
+ * Abstract Output Handler
  *
  * @package   SlaxWeb\Output
  * @author    Tomaz Lovrec <tomaz.lovrec@gmail.com>
@@ -11,7 +11,7 @@ namespace SlaxWeb\Output;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-interface HandlerInterface
+abstract class AbstractHandler
 {
     /**
      * Render
@@ -20,5 +20,5 @@ interface HandlerInterface
      *
      * @return strnig
      */
-    public function render(): string;
+    abstract public function render(): string;
 }
