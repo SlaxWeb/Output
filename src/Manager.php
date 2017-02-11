@@ -79,6 +79,20 @@ class Manager
     protected $env = "";
 
     /**
+     * Output Handler
+     *
+     * @var \SlaxWeb\Output\HandlerInterface
+     */
+    protected $handler = null;
+
+    /**
+     * Output Handler getter
+     *
+     * @var callable
+     */
+    protected $handlerGetter = null;
+
+    /**
      * List of available error levels
      *
      * @var array
@@ -137,6 +151,40 @@ class Manager
         $this->init();
 
         $this->logger->info("Output manager initialized");
+    }
+
+    /**
+     * Set Handler
+     *
+     * Sets the output handler instance to the Manager. The handler must implement
+     * the \SlaxWeb\Output\HandlerInterface to be accepted by the method. Returns
+     * an instance of itself.
+     *
+     * @param \SlaxWeb\Output\HandlerInterface $handler Handler instance
+     * @return self
+     */
+    public function setHandler(HandlerInterface $handler): self
+    {
+        $this->handler = $handler;
+        return $this;
+    }
+
+    /**
+     * Set Handler Getter
+     *
+     * Sets a callable as the handler getter. The callable will be called the first
+     * time when the handler is required. This can happen when an access to the
+     * handler through magic '__call' method is made, or when the execution is shutting
+     * down and the shutdown handler will try and render the handlers contents,
+     * if enabled. Returns an instance of itself.
+     *
+     * @param callable $getter Handler getter callable
+     * @return self
+     */
+    public function setHandlerGetter(callable $getter): self
+    {
+        $this->handlerGetter = $getter;
+        return $this;
     }
 
     /**
