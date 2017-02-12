@@ -53,6 +53,9 @@ class OutputManagerTest extends \Codeception\Test\Unit
             ->shouldReceive("addContent")
             ->with("style template\nWarningTest warningTestfile.php1")
             ->times(1);
+        $this->response
+            ->shouldReceive("addContent")
+            ->with("");
 
         $this->manager->errorHandler(E_WARNING, "Test warning", "Testfile.php", 1);
 
