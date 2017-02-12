@@ -8,3 +8,4 @@ Changes between versions
 * view output handler
 * json output handler
 * output buffering
+* direct output restriction
