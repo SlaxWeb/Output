@@ -213,18 +213,18 @@ class Manager
             ob_end_clean();
         }
 
+        if ($this->enabled === false || $this->allowOutput === true) {
+            $this->response->addContent(ob_get_contents());
+        }
+        if (ob_get_status()) {
+            ob_end_clean();
+        }
+
         if ($this->enabled === true) {
             $handler = $this->handler ?: $this->getHandler();
             $this->statusCode = $this->statusCode ?: $handler->getStatusCode();
             $this->response->headers->set("Content-Type", $handler->getContentType());
             $this->response->addContent($handler->render());
-        }
-
-        if ($this->enabled === false || $this->allowOutput === true) {
-            echo ob_get_contents();
-        }
-        if (ob_get_status()) {
-            ob_end_clean();
         }
 
         $this->response->setStatusCode($this->statusCode ?: 200);
