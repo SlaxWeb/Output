@@ -4,4 +4,7 @@ Changes between versions
 
 ## Current changes
 
-* initial version
+* error output
+* view output handler
+* json output handler
+* output buffering
