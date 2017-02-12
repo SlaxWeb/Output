@@ -325,7 +325,7 @@ class Manager
         if ($this->handler === null
             && (
                 is_callable($this->handlerGetter) === false
-                || !($this->handler = $this->handlerGetter() instanceof \SlaxWeb\Output\AbstractHandler)
+                || !(($this->handler = ($this->handlerGetter)()) instanceof \SlaxWeb\Output\AbstractHandler)
             )
         ) {
             throw new Exception\MissingOutputHandlerException(
