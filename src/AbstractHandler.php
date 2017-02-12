@@ -53,6 +53,6 @@ abstract class AbstractHandler
      */
     public function getStatusCode(): int
     {
-        return $this->statusCode();
+        return $this->statusCode;
     }
 }
