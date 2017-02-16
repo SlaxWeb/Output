@@ -1,4 +1,6 @@
 <?php
+namespace SlaxWeb\Output\Exception;
+
 /**
  * Missing Output Handler Exception
  *
