@@ -32,10 +32,5 @@
         "psr-4": {
             "SlaxWeb\\Output\\Test\\Unit\\": "tests/unit/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1.x-dev"
-        }
     }
 }
