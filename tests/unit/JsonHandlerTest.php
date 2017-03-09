@@ -13,8 +13,18 @@ class JsonHandlerTest extends \Codeception\Test\Unit
     public function testRender()
     {
         $handler = new \SlaxWeb\Output\Handler\Json;
-        $handler->add(["foo" => "bar"])->addError("baz", 400);
-        $this->assertEquals("{\"data\":{\"foo\":\"bar\"},\"errors\":[\"baz\"]}", $handler->render());
+        $handler->add(["foo" => "bar"])->addError("baz", 400, ["data"]);
+        $output = json_encode([
+            "data"  =>  [
+                "foo"   =>  "bar",
+            ],
+            "errors"    =>  [[
+                "message"   =>  "baz",
+                "data"      =>  ["data"]
+            ]]
+            
+        ]);
+        $this->assertEquals($output, $handler->render());
         $this->assertEquals(400, $handler->getStatusCode());
     }
 
