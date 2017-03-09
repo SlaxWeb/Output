@@ -92,6 +92,7 @@ class OutputManagerTest extends \Codeception\Test\Unit
                 "template"  =>  $this->tplName
             ]
         );
+        $this->manager->setHandler(m::mock(\SlaxWeb\Output\AbstractHandler::class));
 
         restore_error_handler();
     }
