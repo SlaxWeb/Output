@@ -2,6 +2,7 @@
 namespace SlaxWeb\Output\Handler;
 
 use SlaxWeb\Output\AbstractHandler;
+use SlaxWeb\Output\Interfaces\ErrorHandler;
 
 /**
  * SlaxWeb Json Output Handler
@@ -16,7 +17,7 @@ use SlaxWeb\Output\AbstractHandler;
  * @link      https://github.com/slaxweb/
  * @version   0.1
  */
-class Json extends AbstractHandler
+class Json extends AbstractHandler implements ErrorHandler
 {
     /**
      * Error container
@@ -69,21 +70,17 @@ class Json extends AbstractHandler
     }
 
     /**
-     * Add error to response
-     *
-     * When an error is added, the status code is automatically set to $code, which
-     * defaults to int(500). This method only adds the error message to the local
-     * error container. The output still needs to be written to response with the
-     * Output Manager object.
-     *
-     * @param string $error Error message to add to container
-     * @param int $code HTTP Status code that is automatically set to the response
-     *                  object, default int(500)
-     * @return self
+     * @inheritDoc
      */
-    public function addError(string $error, int $code = 500): self
-    {
-        $this->errors[] = $error;
+    public function addError(
+        string $error,
+        int $code = 500,
+        array $errorData = []
+    ): ErrorHandler {
+        $this->errors[] = [
+            "message"   =>  $error,
+            "data"      =>  $errorData
+        ];
         $this->setStatusCode($code);
         return $this;
     }
