@@ -4,6 +4,7 @@ namespace SlaxWeb\Output;
 use SlaxWeb\Router\Response;
 use Psr\Log\LoggerInterface as Logger;
 use SlaxWeb\Config\Container as Config;
+use SlaxWeb\Output\Interfaces\ErrorHandler;
 
 /**
  * Output Manager
@@ -276,6 +277,22 @@ class Manager
 
         // set readable severity for templating
         $severity = $this->levels[$code];
+
+        // set the error to the handler if it implements the ErrorHandler interface
+        $handler = $this->handler ?: $this->getHandler();
+        if ($handler instanceof ErrorHandler) {
+            $handler->addError(
+                $error,
+                $this->statusCode,
+                [
+                    "code"      =>  $this->statusCode,
+                    "severity"  =>  $severity,
+                    "file"      =>  $file,
+                    "line"      =>  $line
+                ]
+            );
+            return true;
+        }
 
         // start output buffering
         ob_start();
