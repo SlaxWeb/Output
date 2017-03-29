@@ -3,7 +3,6 @@ namespace SlaxWeb\Output;
 
 use SlaxWeb\Router\Response;
 use Psr\Log\LoggerInterface as Logger;
-use SlaxWeb\Config\Container as Config;
 use SlaxWeb\Output\Interfaces\ErrorHandler;
 
 /**
