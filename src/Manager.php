@@ -262,7 +262,9 @@ class Manager
     ): bool {
         // set status code 500 on errors
         if ($code === ((E_ERROR | E_USER_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_PARSE) & $code)) {
-            $this->statusCode = 500;
+            $this->statusCode = ($resposeCode = $this->response->getStatusCode()) >= 400
+                ? $responseCode
+                : 500;
         }
 
         // if we are not in dev environment, bail out
