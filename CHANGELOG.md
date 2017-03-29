@@ -6,6 +6,8 @@ Changes between versions
 
 * add additional error data to the JSON output handler
 * pass error to the error handler if it implements error handling
+* set error code before checking application environment in error handler
+* use the response set error code if one was set before
 
 ## v0.1
 
