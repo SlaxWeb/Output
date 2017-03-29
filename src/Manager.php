@@ -260,6 +260,11 @@ class Manager
         int $line,
         array $context = []
     ): bool {
+        // set status code 500 on errors
+        if ($code === ((E_ERROR | E_USER_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_PARSE) & $code)) {
+            $this->statusCode = 500;
+        }
+
         // if we are not in dev environment, bail out
         if ($this->env !== "development") {
             return true;
@@ -269,11 +274,6 @@ class Manager
         if (empty($this->errorTpl["template"])) {
             return false;
         };
-
-        // set status code 500 on errors
-        if ($code === ((E_ERROR | E_USER_ERROR | E_COMPILE_ERROR | E_CORE_ERROR | E_PARSE) & $code)) {
-            $this->statusCode = 500;
-        }
 
         // set readable severity for templating
         $severity = $this->levels[$code];
