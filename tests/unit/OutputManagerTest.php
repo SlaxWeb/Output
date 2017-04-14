@@ -66,7 +66,8 @@ class OutputManagerTest extends \Codeception\Test\Unit
     {
         $this->response->shouldReceive("send")->andReturn($this->response);
         $this->response->shouldReceive("addContent");
-        $this->response->shouldReceive("setStatusCode")->with(500);
+        $this->response->shouldReceive("getStatusCode")->andReturn(418);
+        $this->response->shouldReceive("setStatusCode")->with(418);
 
         $this->manager->errorHandler(E_WARNING, "", "", 0);
         $this->manager->errorHandler(E_ERROR, "", "", 0);
