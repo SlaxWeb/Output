@@ -153,6 +153,21 @@ class Manager
     }
 
     /**
+     * Set enabled
+     *
+     * Sets the enabled flag to on or off, depending on the input parameter. When
+     * set to true, the output manager will be enabled.
+     *
+     * @param bool $enabled Enabled flag, default bool(true)
+     * @return self
+     */
+    public function setEnabled(bool $enabled = true): bool
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
      * Set Handler
      *
      * Sets the output handler instance to the Manager. The handler must implement
