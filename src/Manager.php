@@ -161,7 +161,7 @@ class Manager
      * @param bool $enabled Enabled flag, default bool(true)
      * @return self
      */
-    public function setEnabled(bool $enabled = true): bool
+    public function setEnabled(bool $enabled = true): self
     {
         $this->enabled = $enabled;
         return $this;
