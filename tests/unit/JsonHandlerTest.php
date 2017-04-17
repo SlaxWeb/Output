@@ -17,12 +17,10 @@ class JsonHandlerTest extends \Codeception\Test\Unit
         $output = json_encode([
             "data"  =>  [
                 "foo"   =>  "bar",
-            ],
-            "errors"    =>  [[
+            ], "errors" =>  [[
                 "message"   =>  "baz",
                 "data"      =>  ["data"]
             ]]
-            
         ]);
         $this->assertEquals($output, $handler->render());
         $this->assertEquals(400, $handler->getStatusCode());
