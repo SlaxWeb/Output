@@ -18,7 +18,7 @@ use SlaxWeb\Output\Interfaces\ErrorHandler;
  * @copyright 2016 (c) Tomaz Lovrec
  * @license   MIT <https://opensource.org/licenses/MIT>
  * @link      https://github.com/slaxweb/
- * @version   0.1
+ * @version   0.2
  */
 class Manager
 {
